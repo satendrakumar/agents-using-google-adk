@@ -1,12 +1,19 @@
 import datetime
+import logging
+import os
 import threading
 from zoneinfo import ZoneInfo
 
 from google.adk.agents import Agent
+from google.adk.models.lite_llm import LiteLlm
+
+WEATHER_AGENT_MODEL_NAME = os.getenv("WEATHER_AGENT_MODEL_NAME")
+
+logger = logging.getLogger(__name__)
 
 
 def get_weather(city: str) -> dict:
-    print(f"##########Weather information for New York is available.$$$$$$$$$$ {threading.current_thread().name}")
+    logger.info(f"########## Weather tool calling from Thread {threading.current_thread().name}")
     if city.lower() == "new york":
 
         return {
@@ -24,7 +31,7 @@ def get_weather(city: str) -> dict:
 
 
 def get_current_time(city: str) -> dict:
-    print(f"##########get_current_time information for New York is available.$$$$$$$$$$ {threading.current_thread().name}")
+    logger.info(f"########## Current time tool calling from Thread {threading.current_thread().name}")
     if city.lower() == "new york":
         tz_identifier = "America/New_York"
     else:
@@ -41,10 +48,9 @@ def get_current_time(city: str) -> dict:
     return {"status": "success", "report": report}
 
 
-print(f"##########    Root agent  {threading.current_thread().name} ")
 root_agent = Agent(
     name="weather_time_agent",
-    model="gemini-2.0-flash",
+    model=LiteLlm(model=WEATHER_AGENT_MODEL_NAME),
     description="Agent to answer questions about the time and weather in a city.",
     instruction="You are a helpful agent who can answer user questions about the time and weather in a city.",
     tools=[get_weather, get_current_time],

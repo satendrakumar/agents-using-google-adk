@@ -1,0 +1,11 @@
+[project]
+name = "agents-using-google-adk"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "google-adk>=1.8.0",
+    "jupyterlab>=4.4.5",
+    "litellm>=1.74.8",
+]

@@ -55,8 +55,3 @@ root_agent = Agent(
     instruction="You are a helpful agent who can answer user questions about the time and weather in a city.",
     tools=[get_weather, get_current_time],
 )
-
-class MyAgent(Agent):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.se
